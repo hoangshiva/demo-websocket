@@ -18,4 +18,14 @@ public class ChatRoom implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(name = "room_name")
+    private String chatName;
+
+    /**
+     * ACTIVE, CLOSED
+     */
+    @Column(name = "status")
+    private String status;
+
+
 }
