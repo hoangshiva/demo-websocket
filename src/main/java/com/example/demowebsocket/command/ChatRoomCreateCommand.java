@@ -12,5 +12,5 @@ import java.io.Serializable;
 public class ChatRoomCreateCommand implements Serializable {
 
     private String name;
-    private String username;
+    private String description;
 }

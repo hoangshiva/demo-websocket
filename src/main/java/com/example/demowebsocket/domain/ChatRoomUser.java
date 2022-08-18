@@ -1,12 +1,13 @@
 package com.example.demowebsocket.domain;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.*;
 
 import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity
-@Table(name = "chat_room")
+@Table(name = "chat_room_user")
 @Setter
 @Getter
 @Builder
@@ -18,8 +19,10 @@ public class ChatRoomUser implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "chat_room_id")
-    private Long chatRoomId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "chat_room_id", updatable = false)
+    @JsonBackReference
+    private ChatRoom chatRoom;
 
     @Column(name = "user_name")
     private String username;

@@ -1,31 +1,30 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	layout:decorator="layout/default">
+	layout:decorator="layout/default" lang="">
 <head>
-</head>
+	<title>aaaa</title></head>
 <body>
 	<div class="container" layout:fragment="content">
-	 
-		<h3 class="text-center" th:text="#{chat.available.chatrooms}">Available Chat Rooms</h3>
+
+		<h3 class="text-center">Available Chat Rooms</h3>
 		<hr />
 		<table class="table table-striped">
 			<thead>
 				<tr>
-					<th th:text="#{chat.chatrooms.name}">Name</th>
-					<th th:text="#{chat.chatrooms.description}">Description</th>
-					<th th:text="#{chat.chatrooms.connectedUsers}">Connected Users</th>
+					<th>Name</th>
+					<th>Description</th>
+					<th>Connected Users</th>
 					<th></th>
 				</tr>
 			</thead>
 
 			<tbody>
 				<tr th:each="chatRoom : ${chatRooms}">
-					<td th:text="${chatRoom.name}">Brazil</td>
-					<td th:text="${chatRoom.description}">Meet brazilian people
-						here</td>
-					<td th:text="${#lists.size(chatRoom.connectedUsers)}">0</td>
-					<td><a th:href="|/chatroom/${chatRoom.id}|" th:text="#{chat.chatrooms.join}">Join</a></td>
+					<td th:text="${chatRoom.getChatName()}">Brazil</td>
+					<td>Test Chat room</td>
+					<td th:text="${#lists.size(chatRoom.getChatRoomUsers())}">0</td>
+					<td><a th:href="|/chatroom/${chatRoom.id}|">Join</a></td>
 				</tr>
 			</tbody>
 		</table>
@@ -39,30 +38,30 @@
 							aria-label="Close">
 							<span aria-hidden="true">&times;</span>
 						</button>
-						<h4 class="modal-title" id="newChatRoomModalLabel" th:text="#{chat.new.chatroom.title}">New Chat Room</h4>
+						<h4 class="modal-title" id="newChatRoomModalLabel">New Chat Room</h4>
 					</div>
 					<div class="modal-body">
 						<form>
 							<div class="form-group">
-								<label for="newChatroomName" class="control-label" th:text="#{chat.new.chatroom.name}">Name</label>
+								<label for="newChatroomName" class="control-label">Name</label>
 								<input type="text" class="form-control" id="newChatroomName" />
 							</div>
 							<div class="form-group">
-								<label for="newChatRoomDescription" class="control-label" th:text="#{chat.new.chatroom.description}">Description</label>
+								<label for="newChatRoomDescription" class="control-label">Description</label>
 								<textarea class="form-control" id="newChatRoomDescription"></textarea>
 							</div>
 						</form>
 					</div>
 					<div class="modal-footer">
-						<button type="button" class="btn btn-default" data-dismiss="modal" th:text="#{chat.new.chatroom.close}">Close</button>
-						<button id="btnCreateNewChatRoom" type="button"	class="btn btn-primary" th:text="#{chat.new.chatroom.create}">Create</button>
+						<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+						<button id="btnCreateNewChatRoom" type="button"	class="btn btn-primary">Create</button>
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
 
-
+	<script src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
 	<script layout:fragment="script">
 		$(document).ready(function() {
 

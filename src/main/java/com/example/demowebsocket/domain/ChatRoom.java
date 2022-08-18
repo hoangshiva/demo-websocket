@@ -23,6 +23,9 @@ public class ChatRoom implements Serializable {
     @Column(name = "room_name")
     private String chatName;
 
+    @Column(name = "description")
+    private String description;
+
     /**
      * ACTIVE, CLOSED
      */
@@ -32,14 +35,14 @@ public class ChatRoom implements Serializable {
     @Column(name = "username")
     private String username;
 
-    @OneToMany(fetch = FetchType.LAZY,
-            mappedBy = "professionalDepartment",
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "chatRoom",
             cascade = CascadeType.ALL,
             orphanRemoval = true)
     List<ChatRoomUser> chatRoomUsers;
 
     public void addUser(ChatRoomUser chatRoomUser) {
         this.chatRoomUsers.add(chatRoomUser);
+        chatRoomUser.setChatRoom(this);
     }
 
 }

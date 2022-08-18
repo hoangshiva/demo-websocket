@@ -40,9 +40,9 @@ public class ChatRoomController {
 	}
 
 	@RequestMapping("/chatroom/{chatRoomId}")
-	public ModelAndView join(@PathVariable String chatRoomId, Principal principal) {
+	public ModelAndView join(@PathVariable Long chatRoomId, Principal principal) {
 		ModelAndView modelAndView = new ModelAndView("chatroom");
-		modelAndView.addObject("chatRoom", chatRoomService.findById(chatRoomId));
+		modelAndView.addObject("chatRoom", chatRoomService.getById(chatRoomId));
 		return modelAndView;
 	}
 

@@ -6,6 +6,7 @@ import com.example.demowebsocket.domain.ChatRoom;
 import com.example.demowebsocket.domain.ChatRoomUser;
 import com.example.demowebsocket.repository.ChatMessageRepository;
 import com.example.demowebsocket.repository.ChatRoomRepository;
+import com.example.demowebsocket.utils.SystemMessages;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,6 +35,7 @@ public class ChatRoomService {
     public ChatRoom create(@RequestBody ChatRoomCreateCommand command, String username) {
         ChatRoom chatRoom = ChatRoom.builder()
                 .chatName(command.getName())
+                .description(command.getDescription())
                 .status("PENDING")
                 .username(username)
                 .build();
@@ -46,9 +48,6 @@ public class ChatRoomService {
 
 
     public ChatRoom join(ChatRoomUser joiningUser, ChatRoom chatRoom) {
-        chatRoom.addUser(joiningUser);
-        chatRoomRepository.save(chatRoom);
-
         sendPublicMessage(SystemMessages.welcome(chatRoom.getId(), joiningUser.getUsername()));
         updateConnectedUsersViaWebSocket(chatRoom);
         return chatRoom;

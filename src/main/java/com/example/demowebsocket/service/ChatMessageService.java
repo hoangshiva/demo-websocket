@@ -14,6 +14,6 @@ public class ChatMessageService {
     private ChatMessageRepository chatMessageRepository;
 
     public List<ChatMessage> findAllInstantMessagesFor(String username, Long chatRoomId) {
-        return chatMessageRepository.findAllByRoomIdAndAuthor(chatRoomId, username);
+        return chatMessageRepository.findAllByRoomIdAndUserFrom(chatRoomId, username);
     }
 }
