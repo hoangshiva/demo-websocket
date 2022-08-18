@@ -8,10 +8,10 @@
 <div layout:fragment="content">
 
     <div class="container">
-  		<h3 th:text="#{login.title}">Login</h3>
+  		<h3>Login</h3>
   		<hr />
   		<div id="errorMessage" th:if="${param.error}">
-        	<h4 class="alert alert-danger" th:text="#{login.badCredentials}"></h4>
+        	<h4 class="alert alert-danger">Error</h4>
         </div>
 		<form class="form-horizontal" method="post" action="/login">
 		<div class="form-group">

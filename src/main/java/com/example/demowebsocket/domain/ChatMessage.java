@@ -19,8 +19,14 @@ public class ChatMessage implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "author")
-    private String author;
+    @Column(name = "room_id")
+    private Long roomId;
+
+    @Column(name = "user_from")
+    private String userFrom;
+
+    @Column(name = "user_to")
+    private String userTo;
 
     @Column(name = "content")
     private String content;

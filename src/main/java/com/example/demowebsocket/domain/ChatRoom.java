@@ -4,6 +4,8 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "chat_room")
@@ -27,5 +29,17 @@ public class ChatRoom implements Serializable {
     @Column(name = "status")
     private String status;
 
+    @Column(name = "username")
+    private String username;
+
+    @OneToMany(fetch = FetchType.LAZY,
+            mappedBy = "professionalDepartment",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true)
+    List<ChatRoomUser> chatRoomUsers;
+
+    public void addUser(ChatRoomUser chatRoomUser) {
+        this.chatRoomUsers.add(chatRoomUser);
+    }
 
 }
