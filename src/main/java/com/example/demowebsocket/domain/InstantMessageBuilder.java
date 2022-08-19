@@ -32,6 +32,7 @@ public class InstantMessageBuilder {
 	public class InstantMessageType {
 		public InstantMessageText systemMessage(){
 			instantMessage.setUserFrom(SystemUsers.ADMIN.getUsername());
+			instantMessage.setIsPublic(true);
 			instantMessageText = new InstantMessageText();
 			return instantMessageText;
 		}

@@ -63,15 +63,29 @@ public class ChatRoomController {
 	public void sendMessage(@Payload MessagePayload instantMessage, Principal principal,
 							SimpMessageHeaderAccessor headerAccessor) {
 		Long chatRoomId = Long.valueOf(headerAccessor.getSessionAttributes().get("chatRoomId").toString());
-		ChatMessage chatMessage = ChatMessage.builder()
-				.userFrom(principal.getName())
-				.userTo(instantMessage.getUserTo())
-				.roomId(chatRoomId)
-				.content(instantMessage.getContent())
-				.addedTimestamp(new Timestamp(System.currentTimeMillis()))
-				.isCustomer(true)
-				.internal(false)
-				.build();
-		chatRoomService.sendPrivateMessage(chatMessage);
+		ChatMessage chatMessage;
+		if (instantMessage.getIsPublic() != null && instantMessage.getIsPublic()) {
+			chatMessage = ChatMessage.builder()
+					.userFrom(principal.getName())
+					.roomId(chatRoomId)
+					.content(instantMessage.getContent())
+					.addedTimestamp(new Timestamp(System.currentTimeMillis()))
+					.isCustomer(true)
+					.internal(false)
+					.isPublic(true)
+					.build();
+			chatRoomService.sendPublicMessage(chatMessage);
+		} else {
+			chatMessage = ChatMessage.builder()
+					.userFrom(principal.getName())
+					.userTo(instantMessage.getUserTo())
+					.roomId(chatRoomId)
+					.content(instantMessage.getContent())
+					.addedTimestamp(new Timestamp(System.currentTimeMillis()))
+					.isCustomer(true)
+					.internal(false)
+					.build();
+			chatRoomService.sendPrivateMessage(chatMessage);
+		}
 	}
 }

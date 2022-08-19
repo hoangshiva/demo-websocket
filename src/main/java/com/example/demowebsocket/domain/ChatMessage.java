@@ -49,5 +49,8 @@ public class ChatMessage implements Serializable {
     @Column(name = "attachments")
     private String attachments;
 
+    @Column(name = "is_public")
+    private Boolean isPublic;
+
 
 }
