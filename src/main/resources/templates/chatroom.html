@@ -104,6 +104,7 @@
         var btnPublic = $("#public");
 
         function connect() {
+            console.log("vao day dau tien");
             socket = new SockJS('/ws');
             stompClient = Stomp.over(socket);
             stompClient.connect({'chatRoomId': chatRoomId}, stompSuccess, stompFailure);
@@ -284,6 +285,7 @@
             inputMessage.focus();
         })
 
+        console.log("Vào đây đầu tiên 1")
         connect();
         bindConnectedUsers();
         scrollDownMessagesPanel();

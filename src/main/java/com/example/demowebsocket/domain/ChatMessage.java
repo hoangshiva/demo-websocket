@@ -52,5 +52,8 @@ public class ChatMessage implements Serializable {
     @Column(name = "is_public")
     private Boolean isPublic;
 
+    @Column(name = "unread")
+    private Boolean unread;
+
 
 }
