@@ -1,13 +1,15 @@
 package com.example.demowebsocket.domain;
 
 import lombok.*;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.sql.Timestamp;
 
-@Entity
-@Table(name = "chat_message")
+@Document("chat_message")
 @Setter
 @Getter
 @Builder
@@ -16,43 +18,42 @@ import java.sql.Timestamp;
 public class ChatMessage implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private String id;
 
-    @Column(name = "room_id")
+    @Field(name = "room_id")
     private Long roomId;
 
-    @Column(name = "user_from")
+    @Field(name = "user_from")
     private String userFrom;
 
-    @Column(name = "user_to")
+    @Field(name = "user_to")
     private String userTo;
 
-    @Column(name = "content")
+    @Field(name = "content")
     private String content;
 
-    @Column(name = "added_timesstamp")
+    @Field(name = "added_timesstamp")
     private Timestamp addedTimestamp;
 
-    @Column(name = "recall")
+    @Field(name = "recall")
     private Boolean recall;
 
-    @Column(name = "recall_time")
+    @Field(name = "recall_time")
     private Timestamp recallTime;
 
-    @Column(name = "internal")
+    @Field(name = "internal")
     private Boolean internal;
 
-    @Column(name = "is_customer")
+    @Field(name = "is_customer")
     private Boolean isCustomer;
 
-    @Column(name = "attachments")
+    @Field(name = "attachments")
     private String attachments;
 
-    @Column(name = "is_public")
+    @Field(name = "is_public")
     private Boolean isPublic;
 
-    @Column(name = "unread")
+    @Field(name = "unread")
     private Boolean unread;
 
 
