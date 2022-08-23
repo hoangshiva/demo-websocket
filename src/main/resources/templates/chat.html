@@ -23,7 +23,7 @@
 				<tr th:each="chatRoom : ${chatRooms}">
 					<td th:text="${chatRoom.getChatName()}">Brazil</td>
 					<td>Test Chat room</td>
-					<td th:text="${#lists.size(chatRoom.getChatRoomUsers())}">0</td>
+<!--					<td th:text="${#lists.size(chatRoomUsers)}">0</td>-->
 					<td><a th:href="|/chatroom/${chatRoom.id}|">Join</a></td>
 				</tr>
 			</tbody>

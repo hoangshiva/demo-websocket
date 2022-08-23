@@ -1,14 +1,13 @@
 package com.example.demowebsocket.domain;
 
 import lombok.*;
-
-import javax.persistence.*;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
 import java.io.Serializable;
 import java.util.List;
-import java.util.Set;
 
-@Entity
-@Table(name = "chat_room")
+@Document("chat_room")
 @Setter
 @Getter
 @Builder
@@ -17,32 +16,23 @@ import java.util.Set;
 public class ChatRoom implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private String id;
 
-    @Column(name = "room_name")
+    @Field(name = "room_name")
     private String chatName;
 
-    @Column(name = "description")
+    @Field(name = "description")
     private String description;
 
     /**
      * ACTIVE, CLOSED
      */
-    @Column(name = "status")
+    @Field(name = "status")
     private String status;
 
-    @Column(name = "username")
+    @Field(name = "username")
     private String username;
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "chatRoom",
-            cascade = CascadeType.ALL,
-            orphanRemoval = true)
-    List<ChatRoomUser> chatRoomUsers;
-
-    public void addUser(ChatRoomUser chatRoomUser) {
-        this.chatRoomUsers.add(chatRoomUser);
-        chatRoomUser.setChatRoom(this);
-    }
-
+    @Field(name = "chatRoomUserIds")
+    List<String> chatRoomUserIds;
 }

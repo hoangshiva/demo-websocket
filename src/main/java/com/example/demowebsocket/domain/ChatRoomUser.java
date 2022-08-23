@@ -1,13 +1,12 @@
 package com.example.demowebsocket.domain;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.*;
-
-import javax.persistence.*;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
 import java.io.Serializable;
 
-@Entity
-@Table(name = "chat_room_user")
+@Document("chat_room_user")
 @Setter
 @Getter
 @Builder
@@ -16,15 +15,11 @@ import java.io.Serializable;
 public class ChatRoomUser implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private String id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "chat_room_id", updatable = false)
-    @JsonBackReference
-    private ChatRoom chatRoom;
+    private String chatRoomId;
 
-    @Column(name = "user_name")
+    @Field(name = "user_name")
     private String username;
 
 }

@@ -22,7 +22,7 @@ public class InstantMessageBuilder {
 	}
 
 	public class InstantMessageChatRoom {
-		public InstantMessageType withChatRoomId(Long chatRoomId) {
+		public InstantMessageType withChatRoomId(String chatRoomId) {
 			instantMessage.setRoomId(chatRoomId);
 			instantMessageType = new InstantMessageType();
 			return instantMessageType;

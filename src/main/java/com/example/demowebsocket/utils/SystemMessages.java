@@ -6,7 +6,7 @@ import com.example.demowebsocket.domain.InstantMessageBuilder;
 
 public class SystemMessages {
 
-	public static final ChatMessage welcome(Long chatRoomId, String username) {
+	public static ChatMessage welcome(String chatRoomId, String username) {
 		return new InstantMessageBuilder()
 				.newMessage()
 				.withChatRoomId(chatRoomId)
@@ -14,7 +14,7 @@ public class SystemMessages {
 				.withText(username + " joined us :)");
 	}
 
-	public static final ChatMessage goodbye(Long chatRoomId, String username) {
+	public static ChatMessage goodbye(String chatRoomId, String username) {
 		return new InstantMessageBuilder()
 				.newMessage()
 				.withChatRoomId(chatRoomId)

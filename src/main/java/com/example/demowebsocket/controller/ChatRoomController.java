@@ -6,6 +6,7 @@ import com.example.demowebsocket.command.MessagePayload;
 import com.example.demowebsocket.domain.ChatMessage;
 import com.example.demowebsocket.domain.ChatRoom;
 import com.example.demowebsocket.domain.ChatRoomUser;
+import com.example.demowebsocket.mongo.repository.ChatRoomUserRepository;
 import com.example.demowebsocket.service.ChatMessageService;
 import com.example.demowebsocket.service.ChatRoomService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +32,9 @@ public class ChatRoomController {
 	@Autowired
 	private ChatMessageService chatMessageService;
 
+	@Autowired
+	private ChatRoomUserRepository chatRoomUserRepository;
+
 
 	@RequestMapping(path = "/chatroom", method = RequestMethod.POST)
 	@ResponseBody
@@ -40,7 +44,7 @@ public class ChatRoomController {
 	}
 
 	@RequestMapping("/chatroom/{chatRoomId}")
-	public ModelAndView join(@PathVariable Long chatRoomId, Principal principal) {
+	public ModelAndView join(@PathVariable String chatRoomId, Principal principal) {
 		ModelAndView modelAndView = new ModelAndView("chatroom");
 		modelAndView.addObject("chatRoom", chatRoomService.getById(chatRoomId));
 		return modelAndView;
@@ -48,21 +52,21 @@ public class ChatRoomController {
 
 	@SubscribeMapping("/connected.users")
 	public List<ChatRoomUser> listChatRoomConnectedUsersOnSubscribe(SimpMessageHeaderAccessor headerAccessor) {
-		Long chatRoomId = Long.valueOf(headerAccessor.getSessionAttributes().get("chatRoomId").toString());
-		return chatRoomService.getById(chatRoomId).getChatRoomUsers();
+		String chatRoomId = headerAccessor.getSessionAttributes().get("chatRoomId").toString();
+		return chatRoomUserRepository.findAllByChatRoomId(chatRoomId);
 	}
 
 	@SubscribeMapping("/old.messages")
 	public List<ChatMessage> listOldMessagesFromUserOnSubscribe(Principal principal,
 																SimpMessageHeaderAccessor headerAccessor) {
-		Long chatRoomId = Long.valueOf(headerAccessor.getSessionAttributes().get("chatRoomId").toString());
+		String chatRoomId = headerAccessor.getSessionAttributes().get("chatRoomId").toString();
 		return chatMessageService.findAllInstantMessagesFor(principal.getName(), chatRoomId);
 	}
 
 	@MessageMapping("/send.message")
 	public void sendMessage(@Payload MessagePayload instantMessage, Principal principal,
 							SimpMessageHeaderAccessor headerAccessor) {
-		Long chatRoomId = Long.valueOf(headerAccessor.getSessionAttributes().get("chatRoomId").toString());
+		String chatRoomId = headerAccessor.getSessionAttributes().get("chatRoomId").toString();
 		ChatMessage chatMessage;
 		if (instantMessage.getIsPublic() != null && instantMessage.getIsPublic()) {
 			chatMessage = ChatMessage.builder()

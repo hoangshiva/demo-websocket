@@ -4,12 +4,12 @@ import com.example.demowebsocket.command.ChatRoomCreateCommand;
 import com.example.demowebsocket.domain.ChatMessage;
 import com.example.demowebsocket.domain.ChatRoom;
 import com.example.demowebsocket.domain.ChatRoomUser;
-import com.example.demowebsocket.repository.ChatMessageRepository;
-import com.example.demowebsocket.repository.ChatRoomRepository;
+import com.example.demowebsocket.mongo.repository.ChatMessageRepository;
+import com.example.demowebsocket.mongo.repository.ChatRoomRepository;
+import com.example.demowebsocket.mongo.repository.ChatRoomUserRepository;
 import com.example.demowebsocket.utils.SystemMessages;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,6 +25,7 @@ public class ChatRoomService {
     private final SimpMessagingTemplate webSocketMessagingTemplate;
     private final ChatRoomRepository chatRoomRepository;
     private final ChatMessageRepository chatMessageRepository;
+    private final ChatRoomUserRepository chatRoomUserRepository;
 
     @Transactional(readOnly = true)
     public List<ChatRoom> list() {
@@ -42,15 +43,14 @@ public class ChatRoomService {
         return chatRoomRepository.save(chatRoom);
     }
 
-    public ChatRoom getById(Long chatRoomId) {
+    public ChatRoom getById(String chatRoomId) {
         return chatRoomRepository.findById(chatRoomId).orElse(null);
     }
 
 
-    public ChatRoom join(ChatRoomUser joiningUser, ChatRoom chatRoom) {
+    public void join(ChatRoomUser joiningUser, ChatRoom chatRoom) {
         sendPublicMessage(SystemMessages.welcome(chatRoom.getId(), joiningUser.getUsername()));
         updateConnectedUsersViaWebSocket(chatRoom);
-        return chatRoom;
     }
 
 
@@ -82,20 +82,21 @@ public class ChatRoomService {
     }
 
     private void updateConnectedUsersViaWebSocket(ChatRoom chatRoom) {
+        List<ChatRoomUser> chatRoomUsers = chatRoomUserRepository.findAllByChatRoomId(chatRoom.getId());
         webSocketMessagingTemplate.convertAndSend(
                 connectedUsers(chatRoom.getId()),
-                chatRoom.getChatRoomUsers());
+                chatRoomUsers);
     }
 
-    public static String publicMessages(Long chatRoomId) {
+    public static String publicMessages(String chatRoomId) {
         return "/topic/" + chatRoomId + ".public.messages";
     }
 
-    public static String privateMessages(Long chatRoomId) {
+    public static String privateMessages(String chatRoomId) {
         return "/queue/" + chatRoomId + ".private.messages";
     }
 
-    public static String connectedUsers(Long chatRoomId) {
+    public static String connectedUsers(String chatRoomId) {
         return "/topic/" + chatRoomId + ".connected.users";
     }
 

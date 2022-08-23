@@ -4,8 +4,6 @@ import lombok.*;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
-
-import javax.persistence.*;
 import java.io.Serializable;
 import java.sql.Timestamp;
 
@@ -21,7 +19,7 @@ public class ChatMessage implements Serializable {
     private String id;
 
     @Field(name = "room_id")
-    private Long roomId;
+    private String roomId;
 
     @Field(name = "user_from")
     private String userFrom;
