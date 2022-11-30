@@ -121,9 +121,9 @@
             stompClient.subscribe('/chatroom/old.messages', oldMessages);
             console.log("after old message");
 
-            stompClient.subscribe('/topic/' + chatRoomId + '.public.messages', publicMessages);
-            stompClient.subscribe('/user/queue/' + chatRoomId + '.private.messages', privateMessages);
-            stompClient.subscribe('/topic/' + chatRoomId + '.connected.users', updateConnectedUsers);
+            stompClient.subscribe('/topic/' + chatRoomId + '.public.messages', publicMessages, {'auto-delete': 'true'});
+            stompClient.subscribe('/user/queue/' + chatRoomId + '.private.messages', privateMessages, {'auto-delete': 'true'});
+            stompClient.subscribe('/topic/' + chatRoomId + '.connected.users', updateConnectedUsers, {'auto-delete': 'true'});
         }
 
         function stompFailure(error) {
@@ -221,7 +221,7 @@
                     'userTo': spanSendTo.text()
                 }
             }
-            stompClient.send("/chatroom/send.message", {}, JSON.stringify(instantMessage));
+            stompClient.send("/chatroom/send.message", {'auto-delete': 'true'}, JSON.stringify(instantMessage));
             inputMessage.val("").focus();
         }
 
