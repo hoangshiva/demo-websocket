@@ -70,7 +70,7 @@ public class ChatRoomService {
         Map<String, Object> headers = new HashMap<>();
         headers.put("auto-delete", "true");
         webSocketMessagingTemplate.convertAndSend(publicMessages(instantMessage.getRoomId()),
-                instantMessage, headers);
+                instantMessage);
         chatMessageRepository.save(instantMessage);
     }
 
@@ -79,11 +79,11 @@ public class ChatRoomService {
         headers.put("auto-delete", "true");
         webSocketMessagingTemplate.convertAndSendToUser(
                 instantMessage.getUserFrom(), privateMessages(instantMessage.getRoomId()),
-                instantMessage, headers);
+                instantMessage);
 
         webSocketMessagingTemplate.convertAndSendToUser(
                 instantMessage.getUserTo(), privateMessages(instantMessage.getRoomId()),
-                instantMessage, headers);
+                instantMessage);
         chatMessageRepository.save(instantMessage);
     }
 
@@ -91,7 +91,7 @@ public class ChatRoomService {
         Map<String, Object> headers = new HashMap<>();
         headers.put("auto-delete", "true");
         List<ChatRoomUser> chatRoomUsers = chatRoomUserRepository.findAllByChatRoomId(chatRoom.getId());
-        webSocketMessagingTemplate.convertAndSend(connectedUsers(chatRoom.getId()), chatRoomUsers, headers);
+        webSocketMessagingTemplate.convertAndSend(connectedUsers(chatRoom.getId()), chatRoomUsers);
     }
 
     public static String publicMessages(String chatRoomId) {
@@ -99,7 +99,7 @@ public class ChatRoomService {
     }
 
     public static String privateMessages(String chatRoomId) {
-        return "/queue/" + chatRoomId + ".private.messages";
+        return "/exchange/amq.direct/" + chatRoomId + ".private.messages";
     }
 
     public static String connectedUsers(String chatRoomId) {

@@ -31,7 +31,9 @@ public class WebsocketConfig extends AbstractSessionWebSocketMessageBrokerConfig
     }
 
     public void configureMessageBroker(MessageBrokerRegistry registry) {
-        registry.enableStompBrokerRelay("/queue/", "/topic/")
+//        Thông qua exchange thì message trong queue sẽ tự động auto-delete,
+//        còn nếu message được bắn qua queue mà ko được set header {'auto-delete': 'true'} thì nó sẽ không tự động xóa
+        registry.enableStompBrokerRelay("/exchange/", "/queue/", "/topic/")
                 .setUserDestinationBroadcast("/topic/unresolved.user.dest")
                 .setUserRegistryBroadcast("/topic/registry.broadcast")
                 .setRelayHost(relayHost)
