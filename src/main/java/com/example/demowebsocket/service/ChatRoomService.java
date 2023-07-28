@@ -53,17 +53,6 @@ public class ChatRoomService {
         updateConnectedUsersViaWebSocket(chatRoom);
     }
 
-
-//    public ChatRoom leave(ChatRoomUser leavingUser, ChatRoom chatRoom) {
-//        sendPublicMessage(SystemMessages.goodbye(chatRoom.getId(), leavingUser.getUsername()));
-//
-//        chatRoom.removeUser(leavingUser);
-//        chatRoomRepository.save(chatRoom);
-//
-//        updateConnectedUsersViaWebSocket(chatRoom);
-//        return chatRoom;
-//    }
-
     public void sendPublicMessage(ChatMessage instantMessage) {
         webSocketMessagingTemplate.convertAndSend(publicMessages(instantMessage.getRoomId()),
                 instantMessage);
