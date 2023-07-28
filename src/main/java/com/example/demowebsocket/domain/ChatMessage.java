@@ -5,7 +5,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 import java.io.Serializable;
-import java.sql.Timestamp;
+import java.util.Date;
 
 @Document("chat_message")
 @Setter
@@ -31,13 +31,13 @@ public class ChatMessage implements Serializable {
     private String content;
 
     @Field(name = "added_timesstamp")
-    private Timestamp addedTimestamp;
+    private Date addedTimestamp;
 
     @Field(name = "recall")
     private Boolean recall;
 
     @Field(name = "recall_time")
-    private Timestamp recallTime;
+    private Date recallTime;
 
     @Field(name = "internal")
     private Boolean internal;

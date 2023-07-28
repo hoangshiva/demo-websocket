@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.security.Principal;
+import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.List;
 
@@ -73,7 +74,7 @@ public class ChatRoomController {
 					.userFrom(principal.getName())
 					.roomId(chatRoomId)
 					.content(instantMessage.getContent())
-					.addedTimestamp(new Timestamp(System.currentTimeMillis()))
+					.addedTimestamp(new java.util.Date(System.currentTimeMillis()))
 					.isCustomer(true)
 					.internal(false)
 					.isPublic(true)
@@ -85,7 +86,7 @@ public class ChatRoomController {
 					.userTo(instantMessage.getUserTo())
 					.roomId(chatRoomId)
 					.content(instantMessage.getContent())
-					.addedTimestamp(new Timestamp(System.currentTimeMillis()))
+					.addedTimestamp(new java.util.Date(System.currentTimeMillis()))
 					.isCustomer(true)
 					.internal(false)
 					.build();
