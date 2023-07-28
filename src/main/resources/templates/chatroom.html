@@ -121,7 +121,7 @@
             stompClient.subscribe('/chatroom/old.messages', oldMessages);
             console.log("after old message");
 
-            stompClient.subscribe('/topic/' + chatRoomId + '.public.messages', publicMessages);
+            stompClient.subscribe('/topic/' + chatRoomId + '/public.messages', publicMessages);
             stompClient.subscribe('/user/queue/' + chatRoomId + '.private.messages', privateMessages);
             stompClient.subscribe('/topic/' + chatRoomId + '.connected.users', updateConnectedUsers);
         }

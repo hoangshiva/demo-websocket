@@ -65,12 +65,14 @@ public class ChatRoomService {
 //    }
 
     public void sendPublicMessage(ChatMessage instantMessage) {
+        System.out.println(publicMessages(instantMessage.getRoomId()));
         webSocketMessagingTemplate.convertAndSend(publicMessages(instantMessage.getRoomId()),
                 instantMessage);
         chatMessageRepository.save(instantMessage);
     }
 
     public void sendPrivateMessage(ChatMessage instantMessage) {
+        System.out.println(privateMessages(instantMessage.getRoomId()));
         webSocketMessagingTemplate.convertAndSendToUser(
                 instantMessage.getUserFrom(), privateMessages(instantMessage.getRoomId()),
                 instantMessage);
