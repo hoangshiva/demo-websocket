@@ -122,7 +122,7 @@
             console.log("after old message");
 
             stompClient.subscribe('/topic/' + chatRoomId + '.public.messages', publicMessages);
-            stompClient.subscribe('/user/queue/' + chatRoomId + '.private.messages', privateMessages);
+            stompClient.subscribe('/user/exchange/amq.direct/' + chatRoomId + '.private.messages', privateMessages);
             stompClient.subscribe('/topic/' + chatRoomId + '.connected.users', updateConnectedUsers);
         }
 

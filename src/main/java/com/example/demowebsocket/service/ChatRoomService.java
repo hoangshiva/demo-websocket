@@ -15,7 +15,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestBody;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 @Slf4j
@@ -54,27 +56,31 @@ public class ChatRoomService {
     }
 
     public void sendPublicMessage(ChatMessage instantMessage) {
+        Map<String, Object> headers = new HashMap<>();
+        headers.put("auto-delete", "true");
         webSocketMessagingTemplate.convertAndSend(publicMessages(instantMessage.getRoomId()),
                 instantMessage);
         chatMessageRepository.save(instantMessage);
     }
 
     public void sendPrivateMessage(ChatMessage instantMessage) {
+        Map<String, Object> headers = new HashMap<>();
+        headers.put("auto-delete", "true");
         webSocketMessagingTemplate.convertAndSendToUser(
                 instantMessage.getUserFrom(), privateMessages(instantMessage.getRoomId()),
                 instantMessage);
 
         webSocketMessagingTemplate.convertAndSendToUser(
-                instantMessage.getUserTo(),privateMessages(instantMessage.getRoomId()),
+                instantMessage.getUserTo(), privateMessages(instantMessage.getRoomId()),
                 instantMessage);
         chatMessageRepository.save(instantMessage);
     }
 
     private void updateConnectedUsersViaWebSocket(ChatRoom chatRoom) {
+        Map<String, Object> headers = new HashMap<>();
+        headers.put("auto-delete", "true");
         List<ChatRoomUser> chatRoomUsers = chatRoomUserRepository.findAllByChatRoomId(chatRoom.getId());
-        webSocketMessagingTemplate.convertAndSend(
-                connectedUsers(chatRoom.getId()),
-                chatRoomUsers);
+        webSocketMessagingTemplate.convertAndSend(connectedUsers(chatRoom.getId()), chatRoomUsers);
     }
 
     public static String publicMessages(String chatRoomId) {
@@ -82,7 +88,7 @@ public class ChatRoomService {
     }
 
     public static String privateMessages(String chatRoomId) {
-        return "/queue/" + chatRoomId + ".private.messages";
+        return "/exchange/amq.direct/" + chatRoomId + ".private.messages";
     }
 
     public static String connectedUsers(String chatRoomId) {
