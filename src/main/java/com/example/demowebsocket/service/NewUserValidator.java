@@ -25,4 +25,6 @@ public class NewUserValidator implements Validator {
 			errors.rejectValue("username", "new.account.username.already.exists");
 		}
 	}
+
+
 }
